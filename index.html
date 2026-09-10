@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 25 — Global Problems | Lug'at kartochkalari</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F1B2B;
+    --ink-soft:#3C4A5E;
+    --paper:#EFE7D6;
+    --paper-line:#D8CDB2;
+    --night:#101B2B;
+    --night-deep:#0A121D;
+    --gold:#C9A227;
+    --gold-soft:#E4C766;
+    --gold-line:rgba(201,162,39,0.35);
+    --cream:#F4EEDF;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 1px 1px, rgba(201,162,39,0.10) 1px, transparent 1px) 0 0/28px 28px,
+      var(--night);
+    color:var(--cream);
+    font-family:'Space Grotesk', sans-serif;
+    min-height:100vh;
+    padding:48px 20px 80px;
+  }
+
+  .wrap{max-width:980px;margin:0 auto;}
+
+  .pagemark{
+    font-size:13px;
+    color:var(--gold-soft);
+    letter-spacing:0.02em;
+    margin-bottom:6px;
+  }
+
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:clamp(32px,5vw,52px);
+    line-height:1.05;
+    margin:0 0 14px;
+    color:var(--cream);
+  }
+
+  .rule{
+    height:2px;
+    background:linear-gradient(90deg, var(--gold) 0%, var(--gold-line) 60%, transparent 100%);
+    margin:0 0 22px;
+    max-width:520px;
+  }
+
+  .lede{
+    max-width:620px;
+    font-size:15.5px;
+    line-height:1.6;
+    color:#C7CEDA;
+    margin:0 0 6px;
+  }
+
+  .lede b{color:var(--gold-soft); font-weight:600;}
+
+  .controls{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:10px;
+    margin:28px 0 34px;
+    padding:16px 18px;
+    background:rgba(244,238,223,0.04);
+    border:1px solid rgba(244,238,223,0.12);
+    border-radius:10px;
+  }
+
+  button{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:14px;
+    font-weight:500;
+    padding:10px 16px;
+    border-radius:7px;
+    border:1px solid var(--gold-line);
+    background:transparent;
+    color:var(--gold-soft);
+    cursor:pointer;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  button:hover{background:rgba(201,162,39,0.14);}
+  button.primary{
+    background:var(--gold);
+    color:var(--night-deep);
+    border-color:var(--gold);
+    font-weight:600;
+  }
+  button.primary:hover{background:var(--gold-soft);}
+
+  .progress{
+    margin-left:auto;
+    font-size:13.5px;
+    color:#9BA6B6;
+    white-space:nowrap;
+  }
+  .progress strong{color:var(--gold-soft);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(230px,1fr));
+    gap:18px;
+  }
+
+  .card{
+    perspective:1200px;
+    height:186px;
+    cursor:pointer;
+  }
+  .card-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    transition:transform 0.55s cubic-bezier(.4,.2,.2,1);
+    transform-style:preserve-3d;
+  }
+  .card.flipped .card-inner{transform:rotateY(180deg);}
+
+  .face{
+    position:absolute;
+    inset:0;
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
+    border-radius:10px;
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+
+  .face-front{
+    background:var(--paper);
+    color:var(--ink);
+    border:1px solid var(--paper-line);
+    box-shadow:0 1px 0 rgba(255,255,255,0.5) inset, 0 8px 18px rgba(0,0,0,0.25);
+  }
+  .face-front .tag{
+    position:absolute;
+    top:10px;
+    right:12px;
+    font-size:10.5px;
+    color:var(--ink-soft);
+    opacity:0.55;
+  }
+  .face-front .term{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:19px;
+    line-height:1.25;
+  }
+  .face-front .hint{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-top:8px;
+    line-height:1.4;
+  }
+  .face-front .tap{
+    margin-top:auto;
+    padding-top:10px;
+    font-size:11px;
+    color:var(--ink-soft);
+    opacity:0.6;
+  }
+
+  .face-back{
+    background:linear-gradient(160deg, var(--gold-soft), var(--gold));
+    color:var(--night-deep);
+    transform:rotateY(180deg);
+    box-shadow:0 8px 18px rgba(0,0,0,0.3);
+  }
+  .face-back .term{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:19px;
+    line-height:1.25;
+  }
+  .face-back .hint{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:12.5px;
+    margin-top:5px;
+    opacity:0.8;
+  }
+  .face-back .def{
+    margin-top:10px;
+    font-size:12.5px;
+    line-height:1.45;
+    color:#33270A;
+  }
+
+  footer{
+    max-width:980px;
+    margin:44px auto 0;
+    font-size:12px;
+    color:#71798A;
+  }
+
+  @media(max-width:480px){
+    .controls{gap:8px;}
+    .progress{margin-left:0; width:100%;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="pagemark">Lesson 25 · Lug'at</div>
+  <h1>Global Problems</h1>
+  <div class="rule"></div>
+  <p class="lede">Har bir kartani bosing — <b>inglizcha</b> so'z birikmasi <b>o'zbekcha tarjimasi va izohi</b> bilan almashadi. Bosilgan karta shu holicha qoladi (orqaga qaytmaydi), shuning uchun darsni taqdim etishda barcha bilgan so'zlaringizni ochib qo'yishingiz mumkin.</p>
+
+  <div class="controls">
+    <button id="btnLang">Old tomon: Inglizcha</button>
+    <button class="primary" id="btnFlipAll">Hammasini ochish</button>
+    <button id="btnReset">Qaytadan boshlash</button>
+    <div class="progress"><strong id="count">0</strong> / <span id="total">31</span> so'z ochildi</div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<footer>31 ta atama · Lesson 25 — Global Problems matnidan tuzildi</footer>
+
+<script>
+const terms = [
+  {en:"preserving and protecting the environment", enHint:"", uz:"atrof-muhitni asrash va muhofaza qilish", uzHint:"", def:"Tabiatni kelajak avlodlar uchun saqlab qolish va unga zarar yetkazmaslik."},
+  {en:"fossil fuels", enHint:"oil, coal, and natural gas", uz:"qazilma yoqilg'ilar", uzHint:"neft, ko'mir, tabiiy gaz", def:"Yer ostidan qazib olinib, energiya uchun yoqiladigan tabiiy manbalar."},
+  {en:"greenhouse gases", enHint:"gases that heat up the atmosphere", uz:"issiqxona gazlari", uzHint:"atmosferani isituvchi gazlar", def:"Issiqlikni ushlab qolib, sayyora haroratini oshiruvchi gazlar."},
+  {en:"deplete the ozone layer", enHint:"", uz:"ozon qatlamini yupqalashtirish", uzHint:"", def:"Yerni quyoshning zararli nurlaridan himoya qiluvchi qatlamni yemirish."},
+  {en:"global warming", enHint:"", uz:"global isish", uzHint:"", def:"Yer sayyorasi o'rtacha haroratining asta-sekin ko'tarilishi."},
+  {en:"climate change", enHint:"changes in the earth's temperature and weather patterns", uz:"iqlim o'zgarishi", uzHint:"Yer harorati va ob-havo tartibidagi o'zgarishlar", def:"Uzoq muddat davomida kuzatiladigan ob-havo va harorat o'zgarishlari."},
+  {en:"done irreparable damage", enHint:"", uz:"tuzatib bo'lmaydigan zarar yetkazgan", uzHint:"", def:"Qayta tiklab bo'lmaydigan darajada katta zarar."},
+  {en:"rising sea levels", enHint:"", uz:"dengiz sathining ko'tarilishi", uzHint:"", def:"Muzliklar erishi natijasida okean va dengiz suvi darajasining oshishi."},
+  {en:"natural disasters", enHint:"earthquakes, hurricanes, and tornados", uz:"tabiiy ofatlar", uzHint:"zilzila, bo'ron, quyun", def:"Tabiat kuchlari sabab yuzaga keladigan halokatli hodisalar."},
+  {en:"animal species have gone extinct", enHint:"", uz:"hayvon turlari butunlay qirilib ketgan", uzHint:"", def:"Ma'lum hayvon turining yer yuzida umuman qolmay qolishi."},
+  {en:"endangered", enHint:"", uz:"yo'q bo'lib ketish xavfi ostida", uzHint:"", def:"Soni juda kamayib, qirilib ketish xavfi tug'ilgan (hayvon turi)."},
+  {en:"clean energy", enHint:"energy sources that do not pollute the environment", uz:"toza energiya", uzHint:"atrof-muhitni ifloslantirmaydigan energiya manbalari", def:"Ekologik toza usulda olinadigan energiya turi."},
+  {en:"renewable resources", enHint:"elements like water and air, which can be re-used", uz:"qayta tiklanadigan resurslar", uzHint:"suv va havo kabi qayta ishlatsa bo'ladigan elementlar", def:"Tabiatda o'z-o'zidan tiklanib turadigan resurslar."},
+  {en:"harmful to the environment", enHint:"", uz:"atrof-muhitga zararli", uzHint:"", def:"Tabiat va ekotizimga ziyon yetkazadigan."},
+  {en:"die of hunger / starvation", enHint:"die from not having enough food", uz:"ochlikdan o'lish", uzHint:"yetarli ovqat bo'lmagani uchun o'lish", def:"Oziq-ovqat yetishmasligi sababli hayotdan ko'z yumish."},
+  {en:"extreme poverty", enHint:"", uz:"o'ta qashshoqlik", uzHint:"", def:"Eng zaruriy ehtiyojlarni ham qondira olmaydigan darajadagi qashshoqlik."},
+  {en:"developing countries", enHint:"", uz:"rivojlanayotgan davlatlar", uzHint:"", def:"Iqtisodiyoti hali rivojlanish bosqichida bo'lgan mamlakatlar."},
+  {en:"food shortages", enHint:"not enough food", uz:"oziq-ovqat yetishmovchiligi", uzHint:"yetarli ovqat yo'qligi", def:"Aholi ehtiyojini qondirish uchun yetarli oziq-ovqat mavjud emasligi."},
+  {en:"lack of access to clean water", enHint:"", uz:"toza suvga ega bo'lmaslik", uzHint:"", def:"Ichish uchun yaroqli, toza suv manbalaridan foydalana olmaslik."},
+  {en:"homeless people", enHint:"", uz:"uysiz odamlar", uzHint:"", def:"Yashash uchun doimiy uyi bo'lmagan insonlar."},
+  {en:"homeless shelters", enHint:"", uz:"uysizlar uchun boshpanalar", uzHint:"", def:"Uysiz odamlarga vaqtinchalik boshpana beruvchi muassasalar."},
+  {en:"on the margins of society", enHint:"outside the dominant society and culture", uz:"jamiyat chekkasida", uzHint:"asosiy jamiyat va madaniyatdan tashqarida", def:"Jamiyat hayotidan chetlashtirilgan, e'tibordan chetda qolgan."},
+  {en:"living below the poverty line", enHint:"", uz:"qashshoqlik chizig'idan pastda yashash", uzHint:"", def:"Rasman belgilangan eng kam daromad darajasidan kam pul bilan kun kechirish."},
+  {en:"welfare programs", enHint:"programs that give money to poor people", uz:"ijtimoiy yordam dasturlari", uzHint:"kambag'allarga pul beradigan dasturlar", def:"Davlat tomonidan muhtoj fuqarolarga ko'rsatiladigan moddiy yordam."},
+  {en:"alleviate poverty", enHint:"", uz:"qashshoqlikni yengillashtirish", uzHint:"", def:"Qashshoqlik darajasi va uning oqibatlarini kamaytirish."},
+  {en:"preventable diseases", enHint:"", uz:"oldini olish mumkin bo'lgan kasalliklar", uzHint:"", def:"Vaksinatsiya yoki tibbiy yordam orqali oldi olinishi mumkin bo'lgan kasalliklar."},
+  {en:"safe and effective vaccines", enHint:"", uz:"xavfsiz va samarali vaksinalar", uzHint:"", def:"Kasalliklarning oldini olishda ishonchli va zararsiz dori vositalari."},
+  {en:"child labor", enHint:"", uz:"bolalar mehnati", uzHint:"", def:"Bolalarning erta yoshda og'ir yoki xavfli ishlarda ishlatilishi."},
+  {en:"disadvantaged backgrounds", enHint:"poor families and situations", uz:"imkoniyati past oilalar", uzHint:"kambag'al oila va vaziyatlar", def:"Ijtimoiy va moliyaviy jihatdan qiyin sharoitda o'sgan."},
+  {en:"human trafficking", enHint:"", uz:"odam savdosi", uzHint:"", def:"Insonlarni majburiy mehnat yoki ekspluatatsiya maqsadida noqonuniy sotish."},
+  {en:"sexual exploitation", enHint:"", uz:"jinsiy ekspluatatsiya", uzHint:"", def:"Insondan jinsiy maqsadlarda majburan yoki noqonuniy foydalanish."}
+];
+
+let frontLang = 'en'; // 'en' or 'uz'
+const grid = document.getElementById('grid');
+const countEl = document.getElementById('count');
+document.getElementById('total').textContent = terms.length;
+
+function buildCards(){
+  grid.innerHTML = '';
+  terms.forEach((t, i) => {
+    const frontMain = frontLang === 'en' ? t.en : t.uz;
+    const frontHint = frontLang === 'en' ? t.enHint : t.uzHint;
+    const backMain  = frontLang === 'en' ? t.uz : t.en;
+    const backHint  = frontLang === 'en' ? t.uzHint : t.enHint;
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.index = i;
+    card.innerHTML = `
+      <div class="card-inner">
+        <div class="face face-front">
+          <span class="tag">#${String(i+1).padStart(2,'0')}</span>
+          <div class="term">${frontMain}</div>
+          ${frontHint ? `<div class="hint">${frontHint}</div>` : ''}
+          <div class="tap">bosing →</div>
+        </div>
+        <div class="face face-back">
+          <div class="term">${backMain}</div>
+          ${backHint ? `<div class="hint">${backHint}</div>` : ''}
+          <div class="def">${t.def}</div>
+        </div>
+      </div>`;
+    card.addEventListener('click', () => {
+      if (!card.classList.contains('flipped')){
+        card.classList.add('flipped');
+        updateCount();
+      }
+    });
+    grid.appendChild(card);
+  });
+  updateCount();
+}
+
+function updateCount(){
+  countEl.textContent = document.querySelectorAll('.card.flipped').length;
+}
+
+document.getElementById('btnFlipAll').addEventListener('click', () => {
+  document.querySelectorAll('.card').forEach(c => c.classList.add('flipped'));
+  updateCount();
+});
+
+document.getElementById('btnReset').addEventListener('click', () => {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('flipped'));
+  updateCount();
+});
+
+document.getElementById('btnLang').addEventListener('click', (e) => {
+  frontLang = frontLang === 'en' ? 'uz' : 'en';
+  e.target.textContent = 'Old tomon: ' + (frontLang === 'en' ? 'Inglizcha' : "O'zbekcha");
+  buildCards();
+});
+
+buildCards();
+</script>
+</body>
+</html>
