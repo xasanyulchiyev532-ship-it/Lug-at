@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 26 — Time | Lug'at taxtasi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --amber:#F5C242;
+    --amber-dim:#B98E2E;
+    --tile:#17171B;
+    --tile-edge:#232329;
+    --crimson:#8A2E1E;
+    --crimson-dim:#5E1F14;
+    --cream:#F3ECDD;
+    --ink:#0B0B0E;
+  }
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    min-height:100vh;
+    color:var(--cream);
+    font-family:'Space Mono', monospace;
+    position:relative;
+    padding:46px 20px 70px;
+    background:var(--ink);
+  }
+
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:url('https://images.unsplash.com/photo-1591360236494-e6557e5ffa25?fm=jpg&q=75&w=1800&auto=format&fit=crop') center 30%/cover no-repeat;
+    filter:grayscale(0.15) brightness(0.75) contrast(1.1) sepia(0.15) hue-rotate(-8deg);
+    z-index:-2;
+  }
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(circle at 50% 12%, rgba(138,46,30,0.30), transparent 55%),
+      linear-gradient(180deg, rgba(11,11,14,0.45) 0%, rgba(11,11,14,0.62) 45%, rgba(11,11,14,0.72) 100%);
+    z-index:-1;
+  }
+
+  .wrap{max-width:1000px;margin:0 auto;}
+
+  .signage{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .dot{width:9px;height:9px;background:var(--amber);border-radius:1px;box-shadow:0 0 8px rgba(245,194,66,0.8);}
+  .kicker{font-size:13px;letter-spacing:0.12em;color:var(--amber-dim);}
+
+  h1{
+    font-family:'Oswald', sans-serif;
+    font-weight:600;
+    font-size:clamp(30px,5vw,48px);
+    letter-spacing:0.01em;
+    margin:0 0 16px;
+    color:var(--cream);
+  }
+  h1 span{color:var(--amber);}
+
+  .lede{
+    max-width:640px;
+    font-family:'Oswald', sans-serif;
+    font-weight:400;
+    font-size:15px;
+    line-height:1.65;
+    color:#CFC7B4;
+    margin:0 0 28px;
+  }
+  .lede b{color:var(--amber);font-weight:500;}
+
+  .controls{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:10px;
+    margin:0 0 32px;
+    padding:14px 16px;
+    background:rgba(23,23,27,0.6);
+    border:1px solid rgba(245,194,66,0.18);
+    border-radius:6px;
+    backdrop-filter:blur(2px);
+  }
+  button{
+    font-family:'Oswald', sans-serif;
+    font-size:13.5px;
+    font-weight:500;
+    padding:9px 15px;
+    border-radius:4px;
+    border:1px solid rgba(245,194,66,0.4);
+    background:transparent;
+    color:var(--amber);
+    cursor:pointer;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  button:hover{background:rgba(245,194,66,0.14);}
+  button.primary{background:var(--amber);color:var(--ink);border-color:var(--amber);font-weight:600;}
+  button.primary:hover{background:#ffd766;}
+
+  .progress{margin-left:auto;font-size:12.5px;color:#A99E86;font-family:'Space Mono', monospace;}
+  .progress strong{color:var(--amber);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(225px,1fr));
+    gap:16px;
+  }
+
+  .card{
+    perspective:1200px;
+    height:172px;
+    cursor:pointer;
+    opacity:0;
+    animation:settle 0.5s ease forwards;
+  }
+  @keyframes settle{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  .card-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    transition:transform 0.5s cubic-bezier(.5,.1,.2,1);
+    transform-style:preserve-3d;
+  }
+  .card.flipped .card-inner{transform:rotateY(180deg);}
+
+  .face{
+    position:absolute;
+    inset:0;
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
+    border-radius:5px;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+
+  .face-front{
+    background:linear-gradient(180deg, rgba(23,23,27,0.82) 0%, rgba(16,16,19,0.88) 100%);
+    backdrop-filter:blur(5px) saturate(115%);
+    -webkit-backdrop-filter:blur(5px) saturate(115%);
+    border:1px solid var(--tile-edge);
+    box-shadow:0 10px 22px rgba(0,0,0,0.45);
+  }
+  .face-front::before{
+    content:"";
+    position:absolute;
+    left:0; right:0; top:50%;
+    height:1px;
+    background:rgba(0,0,0,0.6);
+  }
+  .face-front::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; top:calc(50% + 1px);
+    height:1px;
+    background:rgba(255,255,255,0.04);
+  }
+  .face-front .num{position:absolute;top:9px;right:11px;font-size:10px;color:#5C5C63;}
+  .face-front .term{
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:16.5px;
+    text-transform:uppercase;
+    letter-spacing:0.02em;
+    color:var(--amber);
+    line-height:1.3;
+    text-shadow:0 0 10px rgba(245,194,66,0.25);
+  }
+  .face-front .hint{
+    font-family:'Oswald', sans-serif;
+    font-style:italic;
+    font-size:11.5px;
+    color:#8C8778;
+    margin-top:7px;
+    line-height:1.4;
+  }
+  .face-front .tap{
+    margin-top:auto;
+    padding-top:8px;
+    font-size:10px;
+    color:#5C5C63;
+  }
+
+  .face-back{
+    background:linear-gradient(180deg, rgba(138,46,30,0.88) 0%, rgba(94,31,20,0.92) 100%);
+    backdrop-filter:blur(5px) saturate(115%);
+    -webkit-backdrop-filter:blur(5px) saturate(115%);
+    border:1px solid rgba(0,0,0,0.3);
+    transform:rotateY(180deg);
+    box-shadow:0 10px 22px rgba(0,0,0,0.45);
+  }
+  .face-back::before{
+    content:"";
+    position:absolute;
+    left:0; right:0; top:50%;
+    height:1px;
+    background:rgba(0,0,0,0.35);
+  }
+  .face-back .term{
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:16px;
+    color:var(--cream);
+    line-height:1.3;
+  }
+  .face-back .hint{
+    font-family:'Oswald', sans-serif;
+    font-style:italic;
+    font-size:11px;
+    color:#E7C9BB;
+    margin-top:5px;
+  }
+  .face-back .def{
+    font-family:'Oswald', sans-serif;
+    margin-top:9px;
+    font-size:12px;
+    line-height:1.5;
+    color:#F3E6DC;
+  }
+
+  footer{
+    max-width:1000px;
+    margin:40px auto 0;
+    font-size:11px;
+    color:#6B6558;
+  }
+  footer a{color:#8C8778;}
+
+  @media(max-width:480px){
+    .progress{margin-left:0;width:100%;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="signage"><span class="dot"></span><span class="kicker">Lesson 26 · Lug'at taxtasi</span></div>
+  <h1>Time <span>—</span> vaqt haqida</h1>
+  <p class="lede">Har bir taxtachani bosing — u aylanib, <b>o'zbekcha tarjima va izohini</b> ko'rsatadi. Yana bir bossangiz, orqasiga — inglizcha holatiga qaytadi. Barcha 25 ta ibora shu yerda, birortasi ham qolib ketmagan.</p>
+
+  <div class="controls">
+    <button class="primary" id="btnShowAll">Hammasini ochish</button>
+    <button id="btnHideAll">Hammasini yopish</button>
+    <div class="progress"><strong id="count">0</strong> / <span id="total">25</span> ochilgan</div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<footer>25 ta ibora · Lesson 26 — Time matnidan tuzildi · Fon surat: Daniele Franchi / Unsplash</footer>
+
+<script>
+const terms = [
+  {en:"in a rush", enHint:"", uz:"shoshilinch holatda", uzHint:"", def:"Juda shoshilib, vaqt yetishmay turgan holat."},
+  {en:"take your time", enHint:"", uz:"shoshilmasdan qilish", uzHint:"vaqtni to'liq sarflash", def:"Biror ishni shoshilmasdan, o'zingizga qulay tezlikda bajarish."},
+  {en:"spend your time", enHint:"", uz:"vaqtingizni sarflash", uzHint:"", def:"Vaqtni biror narsaga ishlatish yoki o'tkazish."},
+  {en:"waste time", enHint:"", uz:"vaqtni behuda sarflash", uzHint:"", def:"Vaqtni foydasiz narsalarga sarflab, uni yo'qotish."},
+  {en:"ungodly hours", enHint:"very late at night / early in the morning", uz:"juda noqulay soat", uzHint:"kechasi juda kech yoki ertalab juda erta", def:"Odatdagidan tashqari, juda kech yoki juda erta vaqt."},
+  {en:"taken me ages", enHint:"taken a very long time", uz:"juda ko'p vaqt olgan", uzHint:"juda uzoq vaqt ketgan", def:"Biror ish kutilganidan ancha ko'proq vaqt talab qilgani."},
+  {en:"time-management", enHint:"", uz:"vaqtni boshqarish", uzHint:"", def:"Vaqtdan samarali va oqilona foydalanish ko'nikmasi."},
+  {en:"well in advance", enHint:"", uz:"oldindan yetarlicha", uzHint:"", def:"Kerakli muddatdan ancha oldin, yetarli vaqt qoldirib."},
+  {en:"amount of time", enHint:"", uz:"vaqt miqdori", uzHint:"", def:"Biror ish uchun ketadigan yoki mavjud bo'lgan vaqt hajmi."},
+  {en:"grueling schedule", enHint:"very intense schedule", uz:"juda og'ir jadval", uzHint:"juda zich va charchatuvchi jadval", def:"Odamni charchatadigan darajada zich va og'ir kun tartibi."},
+  {en:"time-consuming tasks", enHint:"things that take a lot of time", uz:"ko'p vaqt talab qiluvchi vazifalar", uzHint:"ko'p vaqt oladigan ishlar", def:"Bajarilishi uchun ancha vaqt ketadigan ishlar."},
+  {en:"pressing commitments", enHint:"urgent appointments or things to do", uz:"shoshilinch majburiyatlar", uzHint:"zudlik bilan bajarilishi kerak bo'lgan ish", def:"Kechiktirib bo'lmaydigan, zudlik bilan bajarilishi kerak bo'lgan ishlar."},
+  {en:"establish a timeline", enHint:"", uz:"vaqt jadvalini belgilash", uzHint:"", def:"Loyiha yoki ish uchun aniq muddatlar va bosqichlarni belgilash."},
+  {en:"leave things to the last minute", enHint:"", uz:"ishni oxirgi daqiqaga qoldirish", uzHint:"", def:"Bajarilishi kerak bo'lgan ishni muddat tugashiga yaqin qolguncha boshlamaslik."},
+  {en:"running out of time", enHint:"", uz:"vaqt tugab qolishi", uzHint:"", def:"Ishni tugatish uchun yetarli vaqt qolmay qolishi."},
+  {en:"stick to the schedule", enHint:"", uz:"jadvalga qat'iy amal qilish", uzHint:"", def:"Belgilangan reja yoki vaqt jadvalidan chetga chiqmaslik."},
+  {en:"get ahead", enHint:"", uz:"rejadan ilgarilab ketish", uzHint:"", def:"Rejalashtirilgandan ham tezroq va yaxshiroq natijaga erishish."},
+  {en:"falling behind", enHint:"", uz:"orqada qolish", uzHint:"", def:"Belgilangan reja yoki muddatdan orqada qolish."},
+  {en:"strict deadline", enHint:"a definite date before which it needs to be finished", uz:"qat'iy muddat", uzHint:"ish tugallanishi shart bo'lgan aniq sana", def:"Ishni albatta tugatish kerak bo'lgan, o'zgarmas oxirgi sana."},
+  {en:"rush hour", enHint:"lots of traffic as everyone goes to/from work", uz:"tirbandlik soati", uzHint:"hamma ishga yoki uydan ishga ketayotgan vaqt", def:"Yo'llarda transport tirbandligi eng ko'p bo'ladigan vaqt."},
+  {en:"eight solid hours", enHint:"eight hours without interruption", uz:"uzluksiz sakkiz soat", uzHint:"to'xtovsiz sakkiz soat", def:"Hech qanday to'xtash yoki uzilishsiz o'tgan sakkiz soat."},
+  {en:"from dawn till dusk", enHint:"from early morning to late evening", uz:"tongdan qorong'igacha", uzHint:"erta tongdan kech kechgacha", def:"Kun chiqishidan kun botishigacha bo'lgan butun kun davomida."},
+  {en:"spare / free time", enHint:"", uz:"bo'sh vaqt", uzHint:"", def:"Ish yoki majburiy vazifalardan qolgan, o'zingiz uchun ishlatadigan vaqt."},
+  {en:"cut back on your hours", enHint:"reduce your working hours", uz:"ish soatlarini qisqartirish", uzHint:"ishlaydigan soatlar sonini kamaytirish", def:"Ishlash uchun sarflanadigan vaqtni kamaytirish."},
+  {en:"free up some time", enHint:"make more time available", uz:"vaqt bo'shatish", uzHint:"ko'proq bo'sh vaqt hosil qilish", def:"Boshqa ishlar uchun qo'shimcha vaqt ajratib olish."}
+];
+
+const grid = document.getElementById('grid');
+const countEl = document.getElementById('count');
+document.getElementById('total').textContent = terms.length;
+
+terms.forEach((t, i) => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.style.animationDelay = (i * 0.035) + 's';
+  card.innerHTML = `
+    <div class="card-inner">
+      <div class="face face-front">
+        <span class="num">${String(i+1).padStart(2,'0')}</span>
+        <div class="term">${t.en}</div>
+        ${t.enHint ? `<div class="hint">${t.enHint}</div>` : ''}
+        <div class="tap">bosing ↻</div>
+      </div>
+      <div class="face face-back">
+        <div class="term">${t.uz}</div>
+        ${t.uzHint ? `<div class="hint">${t.uzHint}</div>` : ''}
+        <div class="def">${t.def}</div>
+      </div>
+    </div>`;
+  card.addEventListener('click', () => {
+    card.classList.toggle('flipped');
+    updateCount();
+  });
+  grid.appendChild(card);
+});
+
+function updateCount(){
+  countEl.textContent = document.querySelectorAll('.card.flipped').length;
+}
+
+document.getElementById('btnShowAll').addEventListener('click', () => {
+  document.querySelectorAll('.card').forEach(c => c.classList.add('flipped'));
+  updateCount();
+});
+document.getElementById('btnHideAll').addEventListener('click', () => {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('flipped'));
+  updateCount();
+});
+</script>
+</body>
+</html>
