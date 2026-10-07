@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 27 – Sound Collocations | Yodlash Kartalari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8b5cf6;
+      --secondary: #6d28d9;
+      --glow: rgba(139, 92, 246, 0.45);
+      --accent: #a78bfa;
+      --card-bg: rgba(15, 23, 42, 0.88);
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0f172a;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .bg-particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: rgba(167, 139, 250, 0.4);
+      border-radius: 50%;
+      animation: float 18s infinite linear;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+    }
+
+    header {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 2.5rem 1.5rem 1rem;
+      background: linear-gradient(180deg, rgba(15,23,42,0.95) 0%, transparent 100%);
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #c4b5fd, #8b5cf6, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.4rem;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    .counter-badge {
+      display: inline-block;
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      color: #c4b5fd;
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      margin-top: 0.8rem;
+      font-weight: 500;
+    }
+
+    .section {
+      position: relative;
+      min-height: 70vh;
+      padding: 1.5rem 1.5rem 4rem;
+      z-index: 5;
+    }
+
+    .section-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      opacity: 0.22;
+      z-index: -1;
+      filter: blur(1px);
+    }
+
+    .section-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15,23,42,0.75) 0%, rgba(15,23,42,0.95) 100%);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .card {
+      perspective: 1200px;
+      height: 230px;
+      cursor: pointer;
+      animation: cardAppear 0.55s ease backwards;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.03s; }
+    .card:nth-child(2) { animation-delay: 0.06s; }
+    .card:nth-child(3) { animation-delay: 0.09s; }
+    .card:nth-child(4) { animation-delay: 0.12s; }
+    .card:nth-child(5) { animation-delay: 0.15s; }
+    .card:nth-child(6) { animation-delay: 0.18s; }
+    .card:nth-child(7) { animation-delay: 0.21s; }
+    .card:nth-child(8) { animation-delay: 0.24s; }
+    .card:nth-child(n+9) { animation-delay: 0.27s; }
+
+    @keyframes cardAppear {
+      from { opacity: 0; transform: translateY(25px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front,
+    .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1.4rem;
+      text-align: center;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .card-front {
+      background: linear-gradient(145deg, rgba(30,41,59,0.96), rgba(15,23,42,0.98));
+      border-top: 3px solid var(--primary);
+    }
+
+    .card-back {
+      background: linear-gradient(145deg, rgba(15,23,42,0.98), rgba(30,41,59,0.96));
+      transform: rotateY(180deg);
+      border-top: 3px solid var(--accent);
+    }
+
+    .card:hover .card-front {
+      box-shadow: 0 16px 50px var(--glow);
+    }
+
+    .phrase {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #c4b5fd;
+      margin-bottom: 0.5rem;
+      line-height: 1.35;
+      letter-spacing: -0.2px;
+    }
+
+    .category {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(139, 92, 246, 0.15);
+      padding: 0.18rem 0.7rem;
+      border-radius: 20px;
+      margin-bottom: 0.7rem;
+    }
+
+    .hint {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    .uzbek {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: #e2e8f0;
+      margin-bottom: 0.7rem;
+      line-height: 1.4;
+    }
+
+    .example {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-style: italic;
+      line-height: 1.45;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 0.65rem;
+      margin-top: 0.2rem;
+    }
+
+    .example strong {
+      color: #c4b5fd;
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    .footer-note {
+      text-align: center;
+      padding: 1.5rem 1rem 2.5rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    @media (max-width: 640px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+        max-width: 370px;
+      }
+      .card { height: 210px; }
+      .phrase { font-size: 1.15rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-particles" id="particles"></div>
+
+  <header>
+    <h1>Lesson 27 – Sound</h1>
+    <p>1000 English Collocations • Sound (Tovush / Shovqin) mavzusidagi barcha muhim birikmalar</p>
+    <div class="counter-badge">32 ta kollokatsiya</div>
+  </header>
+
+  <section class="section">
+    <div class="section-bg"></div>
+    <div class="cards-grid" id="cards"></div>
+  </section>
+
+  <div class="footer-note">
+    Kartani bosing → aylanadi. Yodlash uchun ideal! • Espresso English
+  </div>
+
+  <script>
+    const collocations = [
+      {
+        phrase: "lovely sound",
+        cat: "pleasant sound",
+        uz: "yoqimli tovush / go‘zal ovoz",
+        ex: "I woke up to the <strong>lovely sound</strong> of my wife playing the piano."
+      },
+      {
+        phrase: "soft sound",
+        cat: "neutral sound",
+        uz: "yumshoq / sekin tovush",
+        ex: "I could hear the <strong>soft sound</strong> of their voices in the other room."
+      },
+      {
+        phrase: "horrible screeching sounds",
+        cat: "unpleasant sound",
+        uz: "dahshatli jiringlash tovushlari",
+        ex: "The fighting cats made <strong>horrible screeching sounds</strong>."
+      },
+      {
+        phrase: "background noise",
+        cat: "noise",
+        uz: "fon shovqini",
+        ex: "There's a lot of <strong>background noise</strong>. Could you call me back?"
+      },
+      {
+        phrase: "annoying buzzing noise",
+        cat: "unpleasant noise",
+        uz: "zerikarli g‘ichirlash shovqini",
+        ex: "My car is making an <strong>annoying buzzing noise</strong> whenever I turn on the A/C."
+      },
+      {
+        phrase: "loud sound / loud noise",
+        cat: "intensity",
+        uz: "baland tovush / shovqin",
+        ex: "A <strong>loud noise</strong> woke me up from my nap."
+      },
+      {
+        phrase: "deafening sound / noise",
+        cat: "extreme intensity",
+        uz: "quloqni kar qiladigan shovqin",
+        ex: "The explosion made a <strong>deafening sound</strong>."
+      },
+      {
+        phrase: "faint / soft sound",
+        cat: "low intensity",
+        uz: "zaif / sekin tovush",
+        ex: "I heard a <strong>faint sound</strong> coming from the basement."
+      },
+      {
+        phrase: "muffled sound",
+        cat: "blocked sound",
+        uz: "bo‘g‘iq / tutqun tovush",
+        ex: "We heard a <strong>muffled sound</strong> through the wall."
+      },
+      {
+        phrase: "constant / incessant noise",
+        cat: "continuous",
+        uz: "doimiy / tinimsiz shovqin",
+        ex: "The <strong>constant noise</strong> in the office makes it hard to concentrate."
+      },
+      {
+        phrase: "roar of traffic",
+        cat: "traffic sound",
+        uz: "transport g‘oyibasi / shovqini",
+        ex: "You'll hear the <strong>roar of traffic</strong> day and night near the highway."
+      },
+      {
+        phrase: "hum of machinery",
+        cat: "machine sound",
+        uz: "mashinalarning g‘ichirlashi / shivirlashi",
+        ex: "In the factory you hear the <strong>hum of machinery</strong> all day."
+      },
+      {
+        phrase: "music blaring",
+        cat: "loud music",
+        uz: "baland ovozda musiqa chalishi",
+        ex: "I couldn't relax because of the <strong>music blaring</strong> next door."
+      },
+      {
+        phrase: "birds chirping",
+        cat: "nature",
+        uz: "qushlarning sayrashi",
+        ex: "I love waking up to the sound of <strong>birds chirping</strong>."
+      },
+      {
+        phrase: "dogs barking",
+        cat: "nature / animals",
+        uz: "itlarning vovullashi",
+        ex: "The neighbor's dogs start <strong>barking</strong> whenever someone walks past."
+      },
+      {
+        phrase: "waves crashing",
+        cat: "nature / ocean",
+        uz: "to‘lqinlarning urilishi",
+        ex: "Sit near the ocean and listen to the <strong>waves crashing</strong>."
+      },
+      {
+        phrase: "wind whistling",
+        cat: "nature",
+        uz: "shamolning hushtak chalishi",
+        ex: "You can hear the <strong>wind whistling</strong> through the trees."
+      },
+      {
+        phrase: "rumble of thunder",
+        cat: "weather",
+        uz: "momaqaldiroqning gumburlashi",
+        ex: "We heard the distant <strong>rumble of thunder</strong>."
+      },
+      {
+        phrase: "thunderclap",
+        cat: "weather",
+        uz: "to‘satdan momaqaldiroq",
+        ex: "A sudden <strong>thunderclap</strong> scared the children."
+      },
+      {
+        phrase: "absolutely / completely / perfectly silent",
+        cat: "total silence",
+        uz: "mutlaqo / butunlay jimjit",
+        ex: "It was <strong>perfectly silent</strong> inside the old abandoned house."
+      },
+      {
+        phrase: "silence descended / fell",
+        cat: "beginning of silence",
+        uz: "jimjitlik tushdi / hukm surdi",
+        ex: "<strong>Silence descended</strong> over the room after the announcement."
+      },
+      {
+        phrase: "break / shatter the silence",
+        cat: "ending silence",
+        uz: "jimjitlikni buzmoq",
+        ex: "A sudden scream <strong>shattered the silence</strong>."
+      },
+      {
+        phrase: "oddly / strangely / uncharacteristically quiet",
+        cat: "unusual quiet",
+        uz: "g‘alati / odatdagidan jim",
+        ex: "The kids were <strong>uncharacteristically quiet</strong> today."
+      },
+      {
+        phrase: "awkward / uncomfortable silence",
+        cat: "emotional silence",
+        uz: "noqulay / noxush sukut",
+        ex: "His joke was followed by an <strong>awkward silence</strong>."
+      },
+      {
+        phrase: "stony / sullen silence",
+        cat: "angry silence",
+        uz: "sovuq / jahl bilan sukut",
+        ex: "She glared at me in <strong>stony silence</strong>."
+      },
+      {
+        phrase: "shocked / stunned silence",
+        cat: "surprise silence",
+        uz: "hayratdan / hayron qolgan sukut",
+        ex: "There was a <strong>stunned silence</strong> after the president resigned."
+      },
+      {
+        phrase: "ominously / eerily quiet",
+        cat: "scary quiet",
+        uz: "dahshatli / g‘ayritabiiy jimjit",
+        ex: "The city becomes <strong>eerily quiet</strong> after midnight."
+      },
+      {
+        phrase: "softly (sing / speak)",
+        cat: "manner of sound",
+        uz: "sekin / yumshoq ovozda",
+        ex: "She sang a lullaby <strong>softly</strong> to put the baby to sleep."
+      },
+      {
+        phrase: "annoying noise",
+        cat: "unpleasant",
+        uz: "zerikarli shovqin",
+        ex: "His phone makes an <strong>annoying noise</strong> every time he gets a message."
+      },
+      {
+        phrase: "loud noise",
+        cat: "intensity",
+        uz: "baland shovqin",
+        ex: "A <strong>loud noise</strong> woke me up from my nap."
+      },
+      {
+        phrase: "constant noise",
+        cat: "continuous",
+        uz: "doimiy shovqin",
+        ex: "The <strong>constant noise</strong> makes it difficult to concentrate."
+      },
+      {
+        phrase: "music blaring",
+        cat: "loud music",
+        uz: "baland ovozda musiqa",
+        ex: "Teenagers had a stereo with <strong>music blaring</strong>."
+      }
+    ];
+
+    function createCards() {
+      const container = document.getElementById('cards');
+      collocations.forEach((item) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-inner">
+            <div class="card-front">
+              <div class="phrase">${item.phrase}</div>
+              <div class="category">${item.cat}</div>
+              <div class="hint">Bosib aylantiring ↻</div>
+            </div>
+            <div class="card-back">
+              <div class="uzbek">${item.uz}</div>
+              <div class="example">${item.ex}</div>
+            </div>
+          </div>
+        `;
+        card.addEventListener('click', () => card.classList.toggle('flipped'));
+        container.appendChild(card);
+      });
+    }
+
+    createCards();
+
+    // Particles
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 35; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = (12 + Math.random() * 18) + 's';
+      p.style.animationDelay = Math.random() * 12 + 's';
+      p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+      particlesContainer.appendChild(p);
+    }
+  </script>
+</body>
+</html>
