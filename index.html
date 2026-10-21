@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 28 – Size | Grammatika + Kollokatsiyalar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1220;
+      --card: #121a2b;
+      --card2: #1a2438;
+      --accent: #22d3ee;
+      --accent2: #a78bfa;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Fixed clear background – filtrsiz */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        linear-gradient(160deg, rgba(11,18,32,0.60) 0%, rgba(11,18,32,0.75) 100%),
+        url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+      background-attachment: fixed;
+    }
+
+    header {
+      position: relative;
+      z-index: 20;
+      text-align: center;
+      padding: 2.8rem 1.2rem 1rem;
+    }
+    header h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 5.5vw, 3.1rem);
+      background: linear-gradient(120deg, #22d3ee, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.35rem;
+    }
+    header p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      padding: 1.2rem 1rem 1.8rem;
+      position: relative;
+      z-index: 20;
+    }
+    .nav button {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.65rem 1.4rem;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .nav button:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .nav button.active {
+      background: linear-gradient(135deg, #22d3ee, #6366f1);
+      color: #0b1220;
+      box-shadow: 0 8px 24px rgba(34,211,238,0.3);
+    }
+
+    .panel {
+      display: none;
+      position: relative;
+      z-index: 10;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.2rem 4rem;
+      animation: fadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .panel.active { display: block; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Grammar boxes */
+    .grammar-box {
+      background: linear-gradient(145deg, rgba(18,26,43,0.92), rgba(26,36,56,0.9));
+      border-radius: 20px;
+      padding: 1.8rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(34,211,238,0.15);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+    .grammar-box h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.35rem;
+      color: var(--accent);
+      margin-bottom: 0.9rem;
+    }
+    .grammar-box p {
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 0.8rem;
+      font-size: 0.98rem;
+    }
+    .grammar-box ul { list-style: none; margin: 0.8rem 0; }
+    .grammar-box li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.55rem;
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .grammar-box li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .tag {
+      display: inline-block;
+      background: rgba(34,211,238,0.12);
+      color: var(--accent);
+      padding: 0.15rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 0 0.15rem;
+    }
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    @media (max-width: 640px) { .compare { grid-template-columns: 1fr; } }
+    .compare-item {
+      background: rgba(0,0,0,0.25);
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .compare-item h4 {
+      font-size: 1rem;
+      color: var(--accent2);
+      margin-bottom: 0.5rem;
+    }
+    .compare-item p { font-size: 0.9rem; margin-bottom: 0.4rem; }
+
+    /* New card design */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.4rem;
+    }
+    .flip {
+      height: 240px;
+      perspective: 1400px;
+      cursor: pointer;
+    }
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-style: preserve-3d;
+    }
+    .flip.flipped .flip-inner { transform: rotateY(180deg); }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 22px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+    .front {
+      background: linear-gradient(160deg, rgba(26,36,56,0.95), rgba(18,26,43,0.97));
+      border: 1px solid rgba(34,211,238,0.18);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+    .front::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #22d3ee, #a78bfa, #f472b6);
+    }
+    .front .word {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+      letter-spacing: -0.3px;
+    }
+    .front .type {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--accent);
+      background: rgba(34,211,238,0.12);
+      align-self: flex-start;
+      padding: 0.25rem 0.7rem;
+      border-radius: 20px;
+      margin-top: 0.6rem;
+    }
+    .front .tap {
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .front .tap span {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: rgba(34,211,238,0.15);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+    }
+    .back {
+      background: linear-gradient(160deg, #1e293b, #0f172a);
+      transform: rotateY(180deg);
+      border: 1px solid rgba(167,139,250,0.25);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .back .uz {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      line-height: 1.4;
+    }
+    .back .ex {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.45;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 0.7rem;
+      margin-top: auto;
+    }
+    .back .ex strong {
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 600;
+    }
+    .flip:hover .front {
+      border-color: rgba(34,211,238,0.4);
+      box-shadow: 0 16px 40px rgba(34,211,238,0.15), inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    footer {
+      position: relative;
+      z-index: 20;
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    @media (max-width: 600px) {
+      .cards { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; }
+      .flip { height: 230px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+
+  <header>
+    <h1>Lesson 28 – Size</h1>
+    <p>Big, large, small, little, tall, high — qachon qaysi so‘z ishlatiladi?</p>
+  </header>
+
+  <nav class="nav">
+    <button class="active" data-panel="grammar">Grammatika</button>
+    <button data-panel="cards">Kollokatsiyalar</button>
+  </nav>
+
+  <!-- GRAMMAR -->
+  <div id="grammar" class="panel active">
+    <div class="grammar-box">
+      <h3>1. Big vs Large</h3>
+      <p><span class="tag">Big</span> kundalik va norasmiy nutqda ko‘proq ishlatiladi. <span class="tag">Large</span> biroz rasmiyroq, lekin ko‘p hollarda ikkalasi ham ishlatiladi.</p>
+      <ul>
+        <li><strong>Large</strong> odatda statistikalar va o‘lchovlar bilan keladi: large number, large amount, large quantity, large proportion, large increase.</li>
+        <li>Ichimlik va kiyim o‘lchamlari: a <strong>large</strong> coffee, size large.</li>
+        <li><strong>Large-scale</strong> / <strong>small-scale</strong> — faoliyat miqyosi uchun.</li>
+      </ul>
+      <p>Lekin quyidagi hollarda <strong>faqat big</strong> ishlatiladi (large bo‘lmaydi):</p>
+      <ul>
+        <li>big decision, big mistake, big surprise, big disappointment, big failure, big improvement, big accomplishment</li>
+        <li>big brother / big sister (aka-uka, opa-singil)</li>
+      </ul>
+    </div>
+
+    <div class="grammar-box">
+      <h3>2. Small vs Little</h3>
+      <div class="compare">
+        <div class="compare-item">
+          <h4>Small — neytral</h4>
+          <p>Jismoniy o‘lchamni bildiradi, his-tuyg‘usiz.</p>
+          <p>• a small house<br>• small children<br>• small dog<br>• small businesses</p>
+        </div>
+        <div class="compare-item">
+          <h4>Little — his-tuyg‘u bilan</h4>
+          <p>Mehribonlik, achinish yoki yoqtirishni bildiradi. Ko‘pincha cute, pretty, poor, nice, tiny bilan keladi.</p>
+          <p>• a cute little house<br>• pretty little girls<br>• poor little dog</p>
+        </div>
+      </div>
+      <p style="margin-top:1rem"><span class="tag">Little</span> miqdorni ham bildiradi (“ozgina”) — bu yerda small ishlatilmaydi:</p>
+      <ul>
+        <li>a little money (ozgina pul)</li>
+        <li>little salt (ozgina tuz)</li>
+        <li>slept very little (juda kam uxladim)</li>
+        <li>little information (ozgina ma’lumot)</li>
+      </ul>
+    </div>
+
+    <div class="grammar-box">
+      <h3>3. Tall / Short vs High / Low</h3>
+      <div class="compare">
+        <div class="compare-item">
+          <h4>Tall / Short</h4>
+          <p>Jismoniy narsaning pastki qismidan yuqori qismigacha bo‘lgan balandligi.</p>
+          <p>• tall building<br>• tall trees<br>• tall man / short woman</p>
+        </div>
+        <div class="compare-item">
+          <h4>High / Low</h4>
+          <p>Yerdan qanchalik balandda joylashganligi yoki “daraja”.</p>
+          <p>• flying high<br>• low branch<br>• high/low prices, levels, quality, rate, degree</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grammar-box">
+      <h3>4. Scale</h3>
+      <p><span class="tag">Large-scale</span> — keng miqyosdagi, katta hajmdagi faoliyat.<br>
+         <span class="tag">Small-scale</span> — kichik miqyosdagi, cheklangan hajmdagi faoliyat.</p>
+      <ul>
+        <li>large-scale production — keng miqyosdagi ishlab chiqarish</li>
+        <li>small-scale farming — kichik miqyosdagi dehqonchilik</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CARDS -->
+  <div id="cards" class="panel">
+    <div class="cards" id="card-list"></div>
+  </div>
+
+  <footer>
+    Kartani bosing → silliq aylanadi • Grammatika + barcha kollokatsiyalar bir joyda
+  </footer>
+
+  <script>
+    const data = [
+      { phrase: "large number", type: "statistics", uz: "katta son / ko‘p miqdor", ex: "A <strong>large number</strong> of students enrolled in the course." },
+      { phrase: "large quantity", type: "statistics", uz: "katta miqdor", ex: "They ordered a <strong>large quantity</strong> of materials." },
+      { phrase: "large amount", type: "statistics", uz: "katta miqdor (abstrakt)", ex: "A <strong>large amount</strong> of money was spent." },
+      { phrase: "large increase", type: "statistics", uz: "katta o‘sish", ex: "There has been a <strong>large increase</strong> in sales." },
+      { phrase: "large proportion", type: "statistics", uz: "katta ulush", ex: "A <strong>large proportion</strong> of the population agrees." },
+      { phrase: "large percentage", type: "statistics", uz: "katta foiz", ex: "A <strong>large percentage</strong> of the human body is water." },
+      { phrase: "large coffee / soda", type: "drink size", uz: "katta kofe / gazlangan ichimlik", ex: "I'll have a hamburger and a <strong>large</strong> milkshake." },
+      { phrase: "small / medium / large", type: "clothing size", uz: "kichik / o‘rta / katta (o‘lcham)", ex: "Do you have this shirt in <strong>large</strong>?" },
+      { phrase: "large-scale", type: "scale", uz: "keng miqyosdagi", ex: "The factory began <strong>large-scale</strong> production." },
+      { phrase: "small-scale", type: "scale", uz: "kichik miqyosdagi", ex: "It was only a <strong>small-scale</strong> operation." },
+      { phrase: "big decision", type: "event", uz: "muhim qaror", ex: "Choosing to have children is a <strong>big decision</strong>." },
+      { phrase: "big mistake", type: "event", uz: "katta xato", ex: "There was a <strong>big mistake</strong> in the report." },
+      { phrase: "big surprise", type: "event", uz: "katta syurpriz", ex: "Winning the prize was a <strong>big surprise</strong>." },
+      { phrase: "big disappointment", type: "event", uz: "katta umidsizlik", ex: "Losing the final was a <strong>big disappointment</strong>." },
+      { phrase: "big failure", type: "event", uz: "katta muvaffaqiyatsizlik", ex: "The project turned out to be a <strong>big failure</strong>." },
+      { phrase: "big improvement", type: "event", uz: "katta yaxshilanish", ex: "There has been a <strong>big improvement</strong> in her English." },
+      { phrase: "big accomplishment", type: "event", uz: "katta yutuq", ex: "Graduating was a <strong>big accomplishment</strong>." },
+      { phrase: "big challenge", type: "event", uz: "katta qiyinchilik", ex: "The biggest challenge is changing your habits." },
+      { phrase: "big brother / sister", type: "family", uz: "katta aka / katta opa", ex: "My <strong>big brother</strong> always protects me." },
+      { phrase: "tall building", type: "height", uz: "baland bino", ex: "New York is full of <strong>tall buildings</strong>." },
+      { phrase: "tall trees", type: "height", uz: "baland daraxtlar", ex: "The park has many <strong>tall trees</strong>." },
+      { phrase: "tall man / woman", type: "height", uz: "baland bo‘yli odam", ex: "He is a very <strong>tall man</strong>." },
+      { phrase: "high / low prices", type: "levels", uz: "yuqori / past narxlar", ex: "The shop has <strong>high prices</strong>." },
+      { phrase: "high / low levels", type: "levels", uz: "yuqori / past darajalar", ex: "Pollution is at <strong>high levels</strong>." },
+      { phrase: "high / low quality", type: "levels", uz: "yuqori / past sifat", ex: "This is a <strong>high-quality</strong> product." },
+      { phrase: "high / low rate", type: "levels", uz: "yuqori / past daraja (foiz)", ex: "There is a <strong>high rate</strong> of unemployment." },
+      { phrase: "high / low degree", type: "levels", uz: "yuqori / past daraja", ex: "She has a <strong>high degree</strong> of skill." },
+      { phrase: "low branch", type: "position", uz: "past shox", ex: "The apple is on a <strong>low branch</strong>." },
+      { phrase: "small house", type: "neutral size", uz: "kichik uy (neytral)", ex: "She lives in a <strong>small house</strong>." },
+      { phrase: "cute little house", type: "affectionate", uz: "yoqimli kichik uy", ex: "She lives in a <strong>cute little house</strong>." },
+      { phrase: "small children", type: "neutral size", uz: "kichik bolalar", ex: "They have three <strong>small children</strong>." },
+      { phrase: "pretty little girls", type: "affectionate", uz: "chiroyli kichkina qizlar", ex: "They have three <strong>pretty little girls</strong>." },
+      { phrase: "small dog", type: "neutral size", uz: "kichik it", ex: "We adopted a <strong>small dog</strong>." },
+      { phrase: "poor little dog", type: "sympathy", uz: "bechora kichkina it", ex: "We adopted a <strong>poor little dog</strong>." },
+      { phrase: "little money", type: "quantity", uz: "ozgina pul", ex: "I made a <strong>little money</strong> from a temporary job." },
+      { phrase: "little salt", type: "quantity", uz: "ozgina tuz", ex: "There's <strong>little salt</strong> in this food." },
+      { phrase: "slept very little", type: "quantity", uz: "juda kam uxlamoq", ex: "I <strong>slept very little</strong> last night." },
+      { phrase: "little information", type: "quantity", uz: "ozgina ma’lumot", ex: "The police released <strong>little information</strong>." },
+      { phrase: "small businesses", type: "company size", uz: "kichik bizneslar", ex: "Grants for <strong>small businesses</strong> in developing countries." },
+      { phrase: "lovely little picnic", type: "affectionate", uz: "yoqimli kichik piknik", ex: "We had a lovely <strong>little picnic</strong> by the lake." },
+      { phrase: "tiny little diamonds", type: "very small", uz: "juda kichik olmoslar", ex: "My ring has <strong>tiny little</strong> diamonds." },
+      { phrase: "too small", type: "fit", uz: "juda kichik", ex: "These jeans are too <strong>small</strong> for me." }
+    ];
+
+    const list = document.getElementById('card-list');
+    data.forEach(item => {
+      const el = document.createElement('div');
+      el.className = 'flip';
+      el.innerHTML = `
+        <div class="flip-inner">
+          <div class="face front">
+            <div>
+              <div class="word">${item.phrase}</div>
+              <div class="type">${item.type}</div>
+            </div>
+            <div class="tap"><span>↻</span> Bosib aylantiring</div>
+          </div>
+          <div class="face back">
+            <div class="uz">${item.uz}</div>
+            <div class="ex">${item.ex}</div>
+          </div>
+        </div>`;
+      el.addEventListener('click', () => el.classList.toggle('flipped'));
+      list.appendChild(el);
+    });
+
+    document.querySelectorAll('.nav button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.panel).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
